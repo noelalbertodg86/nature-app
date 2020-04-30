@@ -12,7 +12,6 @@ var timeSegmentRouter = require("./routes/timeSegments");
 var employeeRouter = require("./routes/employees");
 var serviceRouter = require("./routes/services");
 var clientRouter = require("./routes/clients");
-//require("./db");
 
 var app = express();
 

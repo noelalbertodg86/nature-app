@@ -1,0 +1,6 @@
+{
+  "db": {
+    "loadDbForce": false,
+    "loadDbAlter": false
+  }
+}
