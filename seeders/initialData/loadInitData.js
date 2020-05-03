@@ -12,6 +12,7 @@ const load = (timeSegmentModel, placeModel, clientData) => {
 
 function loadSegmentTimeData(timeSegmentModel) {
   var data = fs.readFileSync(__dirname + "/segmentData.txt", "utf8");
+  timeSegmentModel.destroy({ truncate: true });
   data.split(/\r?\n/).forEach(function(line) {
     timeSegmentModel.create({
       segment: line
@@ -21,6 +22,7 @@ function loadSegmentTimeData(timeSegmentModel) {
 
 function loadPlacesData(placeModel) {
   var data = fs.readFileSync(__dirname + "/placesData.txt", "utf8");
+  placeModel.destroy({ truncate: true });
   data.split(/\r?\n/).forEach(function(line) {
     splitLine = line.split("\t");
     placeModel.create({
@@ -33,11 +35,12 @@ function loadPlacesData(placeModel) {
 
 function loadClientData(clientModel) {
   var data = fs.readFileSync(__dirname + "/clientDataTest.txt", "utf8");
+  clientModel.destroy({ truncate: true });
   data.split(/\r?\n/).forEach(function(line) {
     try {
       splitLine = line.split("\t");
       clientModel.create({
-        id: splitLine[2],
+        ci: splitLine[2],
         fullName: splitLine[3],
         address: splitLine[4],
         phone: splitLine[5],
@@ -52,3 +55,4 @@ function loadClientData(clientModel) {
 }
 
 exports.load = load;
+exports.loadClientData = loadClientData;
