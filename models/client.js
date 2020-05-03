@@ -1,32 +1,16 @@
-module.exports = (sequelize, type) => {
-  const Client = sequelize.define(
-    "Client",
-    {
-      id: {
-        type: type.STRING(15),
-        primaryKey: true
-      },
-      // attributes
-      fullName: {
-        type: type.STRING,
-        allowNull: false
-      },
-      address: type.STRING,
-      cellPhone: type.STRING,
-      email: type.STRING,
-      type: type.STRING(10),
-      phone: {
-        type: type.STRING,
-        allowNull: true
-      }
-    },
-    {
-      // options
-    }
-  );
-
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  const Client = sequelize.define('Client', {
+    ci: DataTypes.STRING,
+    fullName: DataTypes.STRING,
+    address: DataTypes.STRING,
+    cellPhone: DataTypes.STRING,
+    email: DataTypes.STRING,
+    type: DataTypes.STRING,
+    phone: DataTypes.STRING
+  }, {});
   Client.associate = function(models) {
-    Client.hasMany(models.Appointment, { as: "appointment" });
+    // associations can be defined here
   };
   return Client;
 };

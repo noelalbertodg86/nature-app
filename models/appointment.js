@@ -1,45 +1,20 @@
-module.exports = (sequelize, type) => {
+"use strict";
+module.exports = (sequelize, DataTypes) => {
   const Appointment = sequelize.define(
     "Appointment",
     {
-      id: {
-        type: type.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-      },
-      date: type.DATE,
-      state: {
-        type: type.STRING(10),
-        defaultValue: "PENDING"
-      },
-      segmentId: type.INTEGER,
-      placeId: type.INTEGER,
-      employeeId: type.INTEGER,
-      serviceId: type.INTEGER,
-      clientId: {
-        type: type.STRING(15),
-        allowNull: true,
-        foreignKey: true,
-        references: {
-          model: "Clients",
-          key: "id"
-        }
-      }
+      date: DataTypes.DATE,
+      state: DataTypes.STRING,
+      segmentId: DataTypes.INTEGER,
+      placeId: DataTypes.INTEGER,
+      employeeId: DataTypes.INTEGER,
+      serviceId: DataTypes.INTEGER,
+      clientId: DataTypes.INTEGER
     },
-    {
-      // options
-    }
+    {}
   );
   Appointment.associate = function(models) {
-    Appointment.belongsTo(models.TimeSegment, { foreignKey: "segmentId" });
-    Appointment.belongsTo(models.Place, { foreignKey: "placeId" });
-    Appointment.belongsTo(models.Employee, { foreignKey: "employeeId" });
-    Appointment.belongsTo(models.Service, { foreignKey: "serviceId" });
-    Appointment.belongsTo(models.Client, {
-      foreignKey: "clientId",
-      as: "client"
-    });
+    // associations can be defined here
   };
-
   return Appointment;
 };

@@ -1,33 +1,16 @@
-module.exports = (sequelize, type) => {
+"use strict";
+module.exports = (sequelize, DataTypes) => {
   const Place = sequelize.define(
     "Place",
     {
-      id: {
-        type: type.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-      },
-      // attributes
-      name: {
-        type: type.STRING,
-        allowNull: false
-      },
-      address: type.STRING,
-      phone: {
-        type: type.STRING,
-        allowNull: true
-      }
+      name: DataTypes.STRING,
+      address: DataTypes.STRING,
+      phone: DataTypes.STRING
     },
-    {
-      // options
-    }
+    {}
   );
   Place.associate = function(models) {
-    Place.hasMany(models.Appointment, {
-      foreignKey: "placeId",
-      as: "places"
-    });
+    // associations can be defined here
   };
-
   return Place;
 };

@@ -1,20 +1,14 @@
-module.exports = (sequelize, type) => {
-  return sequelize.define(
+"use strict";
+module.exports = (sequelize, DataTypes) => {
+  const TimeSegment = sequelize.define(
     "TimeSegment",
     {
-      id: {
-        type: type.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-      },
-      // attributes
-      segment: {
-        type: type.TIME,
-        allowNull: false
-      }
+      segment: DataTypes.TIME
     },
-    {
-      // options
-    }
+    {}
   );
+  TimeSegment.associate = function(models) {
+    // associations can be defined here
+  };
+  return TimeSegment;
 };

@@ -1,24 +1,15 @@
-module.exports = (sequelize, type) => {
-  return sequelize.define(
+"use strict";
+module.exports = (sequelize, DataTypes) => {
+  const Service = sequelize.define(
     "Service",
     {
-      id: {
-        type: type.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-      },
-      // attributes
-      name: {
-        type: type.STRING,
-        allowNull: false
-      },
-      price: {
-        type: type.DECIMAL,
-        allowNull: true
-      }
+      name: DataTypes.STRING,
+      price: DataTypes.DECIMAL
     },
-    {
-      // options
-    }
+    {}
   );
+  Service.associate = function(models) {
+    // associations can be defined here
+  };
+  return Service;
 };
