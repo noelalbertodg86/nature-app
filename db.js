@@ -4,7 +4,9 @@ TimeSegmentModel = require("./models/timeSegment");
 employeeModel = require("./models/employee");
 serviceModel = require("./models/service");
 clientModel = require("./models/client");
+appointmentModel = require("./models/appointment");
 config = require("./config");
+initialData = require("./seeders/initialData/loadInitData");
 
 const sequelizeConnection = new Sequelize("nature-app", "root", "root", {
   host: "localhost",
@@ -26,6 +28,7 @@ const TimeSegment = TimeSegmentModel(sequelizeConnection, Sequelize);
 const Employee = employeeModel(sequelizeConnection, Sequelize);
 const Service = serviceModel(sequelizeConnection, Sequelize);
 const Client = clientModel(sequelizeConnection, Sequelize);
+const Appointment = appointmentModel(sequelizeConnection, Sequelize);
 
 if (Boolean(config.getConfig("db.loadDbForce"))) {
   loadDbForce();
@@ -33,12 +36,13 @@ if (Boolean(config.getConfig("db.loadDbForce"))) {
   loadDbAlter();
 }
 
-module.exports = { Place, TimeSegment, Employee, Service, Client };
-
 function loadDbForce() {
   sequelizeConnection
     .sync({ force: true })
-    .then(() => console.log("Database is update"))
+    .then(() => {
+      console.log("Database is update");
+      initialData.load(TimeSegment, Place, Client);
+    })
     .catch(err => {
       console.error(err);
     });
@@ -52,3 +56,5 @@ function loadDbAlter() {
       console.error(err);
     });
 }
+
+module.exports = { Place, TimeSegment, Employee, Service, Client, Appointment };

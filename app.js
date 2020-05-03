@@ -12,6 +12,7 @@ var timeSegmentRouter = require("./routes/timeSegments");
 var employeeRouter = require("./routes/employees");
 var serviceRouter = require("./routes/services");
 var clientRouter = require("./routes/clients");
+var appointmentRouter = require("./routes/appointments");
 
 var app = express();
 
@@ -33,6 +34,7 @@ app.use("/time-segments", timeSegmentRouter);
 app.use("/employees", employeeRouter);
 app.use("/services", serviceRouter);
 app.use("/clients", clientRouter);
+app.use("/appointments", appointmentRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

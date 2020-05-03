@@ -1,5 +1,5 @@
 module.exports = (sequelize, type) => {
-  return sequelize.define(
+  const Client = sequelize.define(
     "Client",
     {
       id: {
@@ -7,13 +7,9 @@ module.exports = (sequelize, type) => {
         primaryKey: true
       },
       // attributes
-      name: {
+      fullName: {
         type: type.STRING,
         allowNull: false
-      },
-      lastName: {
-        type: type.STRING,
-        allowNull: true
       },
       address: type.STRING,
       cellPhone: type.STRING,
@@ -28,4 +24,9 @@ module.exports = (sequelize, type) => {
       // options
     }
   );
+
+  Client.associate = function(models) {
+    Client.hasMany(models.Appointment, { as: "appointment" });
+  };
+  return Client;
 };

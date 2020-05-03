@@ -1,5 +1,5 @@
 module.exports = (sequelize, type) => {
-  return sequelize.define(
+  const Employee = sequelize.define(
     "Employee",
     {
       id: {
@@ -26,4 +26,5 @@ module.exports = (sequelize, type) => {
       // options
     }
   );
+  return Employee;
 };

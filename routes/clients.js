@@ -71,20 +71,27 @@ function validateClient(place) {
     id: Joi.string()
       .max(15)
       .required(),
-    name: Joi.string()
+    fullName: Joi.string()
       .min(3)
       .required(),
-    lastName: Joi.string()
-      .max(255)
-      .required(),
-    address: Joi.string(),
+    address: Joi.string()
+      .allow("")
+      .optional(),
     phone: Joi.string()
       .max(15)
-      .required()
-      .empty(true),
-    cellPhone: Joi.string().max(15),
-    email: Joi.string(),
-    type: Joi.string().max(10)
+      .allow("")
+      .optional(),
+    cellPhone: Joi.string()
+      .max(15)
+      .allow("")
+      .optional(),
+    email: Joi.string()
+      .allow("")
+      .optional(),
+    type: Joi.string()
+      .max(10)
+      .allow("")
+      .optional()
   };
   return Joi.validate(place, schema);
 }

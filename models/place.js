@@ -1,5 +1,5 @@
 module.exports = (sequelize, type) => {
-  return sequelize.define(
+  const Place = sequelize.define(
     "Place",
     {
       id: {
@@ -22,4 +22,12 @@ module.exports = (sequelize, type) => {
       // options
     }
   );
+  Place.associate = function(models) {
+    Place.hasMany(models.Appointment, {
+      foreignKey: "placeId",
+      as: "places"
+    });
+  };
+
+  return Place;
 };
