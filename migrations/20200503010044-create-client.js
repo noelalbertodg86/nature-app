@@ -24,7 +24,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       type: {
-        type: Sequelize.STRING(10)
+        type: Sequelize.STRING(20)
       },
       phone: {
         type: Sequelize.STRING(20)

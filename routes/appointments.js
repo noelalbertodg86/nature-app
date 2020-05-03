@@ -1,6 +1,6 @@
 const express = require("express");
 const Joi = require("joi");
-const { Appointment, Client } = require("../db");
+const Appointment = require("../models").Appointment;
 
 var router = express.Router();
 
@@ -20,7 +20,7 @@ router.get("/:id", async (req, res) => {
     where: {
       id: parseInt(req.params.id)
     },
-    include: { model: Client, as: "client" }
+    include: ["place", "client"]
   });
   if (appointment.length === 0) {
     res.status(404).send("This appointment do not exists");

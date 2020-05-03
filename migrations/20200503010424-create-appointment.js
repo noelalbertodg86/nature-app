@@ -18,7 +18,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       placeId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Places",
+          key: "id"
+        }
       },
       employeeId: {
         type: Sequelize.INTEGER
@@ -27,7 +31,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       clientId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Clients",
+          key: "id"
+        }
       },
       createdAt: {
         allowNull: false,

@@ -1,4 +1,4 @@
-"use strict";
+//"use strict";
 module.exports = (sequelize, DataTypes) => {
   const Place = sequelize.define(
     "Place",
@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
   );
   Place.associate = function(models) {
     // associations can be defined here
+    Place.hasMany(models.Appointment, {
+      foreignKey: "placeId",
+      as: "appointments"
+    });
   };
   return Place;
 };

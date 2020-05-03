@@ -1,6 +1,6 @@
 const express = require("express");
 const Joi = require("joi");
-const { Employee } = require("../db");
+const Employee = require("../models").Employee;
 
 var router = express.Router();
 

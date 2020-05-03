@@ -1,6 +1,6 @@
 const express = require("express");
 const Joi = require("joi");
-const { Place } = require("../db");
+const Place = require("../models").Place;
 
 var router = express.Router();
 

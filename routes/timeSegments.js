@@ -1,6 +1,6 @@
 const express = require("express");
 const Joi = require("joi");
-const { TimeSegment } = require("../db");
+const TimeSegment = require("../models").TimeSegment;
 
 var router = express.Router();
 
