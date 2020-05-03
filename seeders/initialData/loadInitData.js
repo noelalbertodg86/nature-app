@@ -56,3 +56,5 @@ function loadClientData(clientModel) {
 
 exports.load = load;
 exports.loadClientData = loadClientData;
+exports.loadSegmentTimeData = loadSegmentTimeData;
+exports.loadPlacesData = loadPlacesData;

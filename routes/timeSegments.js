@@ -1,8 +1,11 @@
 const express = require("express");
 const Joi = require("joi");
 const TimeSegment = require("../models").TimeSegment;
+const defaultConfig = require("../configManager");
 
 var router = express.Router();
+
+initializeSegmentData(TimeSegment);
 
 router.get("/", async (req, res) => {
   res.send(await TimeSegment.findAll());
@@ -76,4 +79,10 @@ function validateTimeSegment(place) {
   return Joi.validate(place, schema);
 }
 
+function initializeSegmentData(client) {
+  if (Boolean(defaultConfig.getConfig("loadDbForce"))) {
+    const segmentInitialData = require("../seeders/initialData/loadInitData");
+    segmentInitialData.loadSegmentTimeData(TimeSegment);
+  }
+}
 module.exports = router;

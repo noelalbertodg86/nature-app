@@ -20,7 +20,7 @@ router.get("/:id", async (req, res) => {
     where: {
       id: parseInt(req.params.id)
     },
-    include: ["place", "client"]
+    include: ["place", "client", "timeSegment"]
   });
   if (appointment.length === 0) {
     res.status(404).send("This appointment do not exists");

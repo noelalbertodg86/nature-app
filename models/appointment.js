@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "clientId",
       as: "client"
     });
+    Appointment.belongsTo(models.TimeSegment, {
+      foreignKey: "segmentId",
+      as: "timeSegment"
+    });
   };
   return Appointment;
 };

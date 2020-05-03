@@ -1,8 +1,11 @@
 const express = require("express");
 const Joi = require("joi");
 const Place = require("../models").Place;
+const defaultConfig = require("../configManager");
 
 var router = express.Router();
+
+initializePlacesData(Place);
 
 router.get("/", async (req, res) => {
   const places = await Place.findAll();
@@ -13,7 +16,8 @@ router.get("/:id", async (req, res) => {
   const place = await Place.findAll({
     where: {
       id: parseInt(req.params.id)
-    }
+    },
+    include: ["appointments", "employees"]
   });
   if (place.length === 0) {
     res.status(404).send("This place do not exists");
@@ -82,4 +86,10 @@ function validatePlace(place) {
   return Joi.validate(place, schema);
 }
 
+function initializePlacesData(client) {
+  if (Boolean(defaultConfig.getConfig("loadDbForce"))) {
+    const placesInitialData = require("../seeders/initialData/loadInitData");
+    placesInitialData.loadPlacesData(Place);
+  }
+}
 module.exports = router;

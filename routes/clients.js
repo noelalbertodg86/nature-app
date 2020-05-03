@@ -1,8 +1,11 @@
 const express = require("express");
 const Joi = require("joi");
 const Client = require("../models").Client;
+const defaultConfig = require("../configManager");
 
 var router = express.Router();
+
+initializeClientData(Client);
 
 router.get("/", async (req, res) => {
   const client = await Client.findAll();
@@ -13,7 +16,8 @@ router.get("/:id", async (req, res) => {
   const client = await Client.findAll({
     where: {
       id: parseInt(req.params.id)
-    }
+    },
+    include: "appointments"
   });
   if (client.length === 0) {
     res.status(404).send("This client do not exists");
@@ -26,7 +30,8 @@ router.get("/ci/:ci", async (req, res) => {
   const client = await Client.findAll({
     where: {
       ci: parseInt(req.params.ci)
-    }
+    },
+    include: "appointments"
   });
   if (client.length === 0) {
     res.status(404).send("This client do not exists");
@@ -140,4 +145,10 @@ function validateClient(place) {
   return Joi.validate(place, schema);
 }
 
+function initializeClientData(client) {
+  if (Boolean(defaultConfig.getConfig("loadDbForce"))) {
+    const clientInitialData = require("../seeders/initialData/loadInitData");
+    clientInitialData.loadClientData(Client);
+  }
+}
 module.exports = router;

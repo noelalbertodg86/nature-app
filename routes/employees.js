@@ -68,20 +68,18 @@ router.delete("/:id", async (req, res) => {
 
 function validateEmployee(place) {
   const schema = {
-    name: Joi.string()
+    fullName: Joi.string()
       .min(3)
       .required(),
-    lastName: Joi.string()
-      .max(255)
-      .required(),
-    degree: Joi.string()
-      .max(15)
+    title: Joi.string()
+      .max(4)
       .required()
       .empty(true),
     phone: Joi.string()
       .max(15)
       .required()
-      .empty(true)
+      .empty(true),
+    placeId: Joi.number().optional()
   };
   return Joi.validate(place, schema);
 }
