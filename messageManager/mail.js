@@ -2,7 +2,6 @@
 const nodemailer = require("nodemailer");
 const Message = require("../models").Message;
 const Appointment = require("../models").Appointment;
-const html = require("./resources/appointmentHtml");
 
 const sendEmail = async emailMessage => {
   let transporter = nodemailer.createTransport({
@@ -49,17 +48,12 @@ async function sendEmailMessage(type, appointmentId) {
   });
 
   emailMessage["to"] = appointmentModel.client.email;
-
-  var appointmentDataHtmlTable = html.htmlAppointmentTable();
-
-  appointmentDataHtmlTable = appointmentDataHtmlTable
+  emailMessage.message = emailMessage.message
     .replace("[[CLIENTNAME]]", appointmentModel.client.fullName)
     .replace("[[DATE]]", appointmentModel.date.toISOString().split("T")[0])
     .replace("[[TIME]]", appointmentModel.timeSegment.segment)
     .replace("[[PLACE]]", appointmentModel.place.name)
     .replace("[[ADDRESS]]", appointmentModel.place.address);
-
-  emailMessage.message += appointmentDataHtmlTable;
   sendEmail(emailMessage).catch(console.error);
 }
 
