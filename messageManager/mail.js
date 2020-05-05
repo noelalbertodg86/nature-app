@@ -35,7 +35,7 @@ async function sendEmailMessage(type, appointmentId) {
   });
   if (emailMessage.length === 0) {
     console.log(
-      `There is not parameters for message. Canal: ${messageCanal.EMAIL}, Type: ${type}`
+      `There is not parameters for message. Canal: EMAIL, Type: ${type}`
     );
     return;
   }
