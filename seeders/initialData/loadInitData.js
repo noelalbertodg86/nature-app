@@ -54,7 +54,26 @@ function loadClientData(clientModel) {
   });
 }
 
+function loadMessageData(messageModel) {
+  var data = fs.readFileSync(__dirname + "/messageData.txt", "utf8");
+  messageModel.destroy({ truncate: true });
+  data.split(/\r?\n/).forEach(function(line) {
+    try {
+      splitLine = line.split("\t");
+      messageModel.create({
+        canal: splitLine[0],
+        type: splitLine[1],
+        subject: splitLine[2],
+        message: splitLine[3]
+      });
+    } catch (e) {
+      console.log("Error load message initial data", e.stack);
+    }
+  });
+}
+
 exports.load = load;
 exports.loadClientData = loadClientData;
 exports.loadSegmentTimeData = loadSegmentTimeData;
 exports.loadPlacesData = loadPlacesData;
+exports.loadMessageData = loadMessageData;

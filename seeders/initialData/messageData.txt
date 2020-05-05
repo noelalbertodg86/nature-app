@@ -1,0 +1,3 @@
+EMAIL	NEWAPPOINTMENT	[NATURE] Cita agendada exitosamente	Estimado Sr(s) Nature coordialmente le agradece por escogernos. Su cita ha sido agendada exitosamente
+SMS	NEWAPPOINTMENT	[NATURE] Cita agendada exitosamente	Estimado Sr(s) Nature coordialmente le agradece por escogernos. Su cita ha sido agendada exitosamente
+WHATSAPP	NEWAPPOINTMENT	[NATURE] Cita agendada exitosamente	Estimado Sr(s) Nature coordialmente le agradece por escogernos. Su cita ha sido agendada exitosamente

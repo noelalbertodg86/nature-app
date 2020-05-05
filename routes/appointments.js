@@ -1,13 +1,22 @@
 const express = require("express");
 const Joi = require("joi");
 const Appointment = require("../models").Appointment;
+const Message = require("../models").Message;
+const defaultConfig = require("../configManager");
+const mail = require("../messageManager/mail");
 
 var router = express.Router();
+
+initializeMessageData(Message);
 
 const appointmentStates = {
   PENDING: "PENDING",
   ACTIVE: "ACTIVE",
   CLOSED: "CLOSED"
+};
+
+const messageType = {
+  NEWAPPOINTMENT: "NEWAPPOINTMENT"
 };
 
 router.get("/", async (req, res) => {
@@ -16,29 +25,22 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  const appointment = await Appointment.findAll({
-    where: {
-      id: parseInt(req.params.id)
-    },
-    include: ["place", "client", "timeSegment"]
-  });
+  const appointment = await getAppointmentById(req.params.id);
   if (appointment.length === 0) {
     res.status(404).send("This appointment do not exists");
     return;
   }
-
   res.send(appointment);
 });
 
 router.post("/", async (req, res) => {
-  //validate the input with joi
-
   const { error } = validateAppointment(req.body);
   if (error) {
     res.status(400).send(error.details[0].message);
     return;
   }
   const newAppointment = await Appointment.create(req.body);
+  mail.sendEmailMessage(messageType.NEWAPPOINTMENT, newAppointment.id);
   res.send(newAppointment);
 });
 
@@ -87,6 +89,22 @@ function validateAppointment(place) {
     employeeId: Joi.number().optional()
   };
   return Joi.validate(place, schema);
+}
+
+function initializeMessageData(messageModel) {
+  if (Boolean(defaultConfig.getConfig("loadDbForce"))) {
+    const clientInitialData = require("../seeders/initialData/loadInitData");
+    clientInitialData.loadMessageData(messageModel);
+  }
+}
+
+async function getAppointmentById(id) {
+  return Appointment.findAll({
+    where: {
+      id: parseInt(id)
+    },
+    include: ["place", "client", "timeSegment"]
+  });
 }
 //allow('').optional()
 module.exports = router;
