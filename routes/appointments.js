@@ -4,6 +4,7 @@ const Appointment = require("../models").Appointment;
 const Message = require("../models").Message;
 const defaultConfig = require("../configManager");
 const mail = require("../messageManager/mail");
+const sms = require("../messageManager/sms");
 
 var router = express.Router();
 
@@ -41,6 +42,8 @@ router.post("/", async (req, res) => {
   }
   const newAppointment = await Appointment.create(req.body);
   mail.sendEmailMessage(messageType.NEWAPPOINTMENT, newAppointment.id);
+  //sms.sendOnlineSms(messageType.NEWAPPOINTMENT, newAppointment.id);
+  sms.sendSms(messageType.NEWAPPOINTMENT, newAppointment.id);
   res.send(newAppointment);
 });
 
@@ -103,7 +106,7 @@ async function getAppointmentById(id) {
     where: {
       id: parseInt(id)
     },
-    include: ["place", "client", "timeSegment"]
+    include: ["place", "client", "timeSegment", "AppointmentMessageQueue"]
   });
 }
 //allow('').optional()

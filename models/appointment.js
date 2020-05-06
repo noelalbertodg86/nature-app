@@ -27,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "segmentId",
       as: "timeSegment"
     });
+    Appointment.hasMany(models.AppointmentMessageQueue, {
+      foreignKey: "appointmentId",
+      as: "AppointmentMessageQueue"
+    });
   };
   return Appointment;
 };

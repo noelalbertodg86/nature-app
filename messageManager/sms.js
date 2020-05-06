@@ -19,7 +19,6 @@ async function sendOnlineSms(messageType, appointmentId) {
 
 async function sendSms(messageType, appointmentId) {
   var smsData = await getSmsData(messageType, appointmentId);
-  console.log("sms data", smsData);
   var smsUser = "noel.diaz";
   var smsPassword = "Da14Ca16";
   var to = "+" + smsData.to;
