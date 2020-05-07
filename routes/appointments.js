@@ -2,6 +2,7 @@ const express = require("express");
 const Joi = require("joi");
 const Appointment = require("../models").Appointment;
 const Message = require("../models").Message;
+const AppointmentMessageQueue = require("../models").AppointmentMessageQueue;
 const defaultConfig = require("../configManager");
 const mail = require("../messageManager/mail");
 const sms = require("../messageManager/sms");
@@ -14,6 +15,11 @@ const appointmentStates = {
   PENDING: "PENDING",
   ACTIVE: "ACTIVE",
   CLOSED: "CLOSED"
+};
+
+const messageCanal = {
+  EMAIL: "EMAIL",
+  SMS: "SMS"
 };
 
 const messageType = {
@@ -41,9 +47,24 @@ router.post("/", async (req, res) => {
     return;
   }
   const newAppointment = await Appointment.create(req.body);
-  mail.sendEmailMessage(messageType.NEWAPPOINTMENT, newAppointment.id);
+  AppointmentMessageQueue.create({
+    appointmentId: newAppointment.id,
+    type: messageType.NEWAPPOINTMENT,
+    canal: messageCanal.EMAIL,
+    status: appointmentStates.PENDING,
+    result: ""
+  });
+
+  AppointmentMessageQueue.create({
+    appointmentId: newAppointment.id,
+    type: messageType.NEWAPPOINTMENT,
+    canal: messageCanal.SMS,
+    status: appointmentStates.PENDING,
+    result: ""
+  });
+  //mail.sendEmailMessage(messageType.NEWAPPOINTMENT, newAppointment.id);
   //sms.sendOnlineSms(messageType.NEWAPPOINTMENT, newAppointment.id);
-  sms.sendSms(messageType.NEWAPPOINTMENT, newAppointment.id);
+  //sms.sendSms(messageType.NEWAPPOINTMENT, newAppointment.id);
   res.send(newAppointment);
 });
 

@@ -7,6 +7,14 @@
 var app = require("../app");
 var debug = require("debug")("nature-app:server");
 var http = require("http");
+const cron = require("node-cron");
+
+/**
+ * Start cron process.
+ */
+cron.schedule("* * * * *", function() {
+  console.log("running a task every minute");
+});
 
 /**
  * Get port from environment and store in Express.
