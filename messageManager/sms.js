@@ -2,6 +2,8 @@ const Nexmo = require("nexmo");
 const Message = require("../models").Message;
 const Appointment = require("../models").Appointment;
 const request = require("request");
+const AppointmentMessageQueue = require("../models").AppointmentMessageQueue;
+const structures = require("../structures/structures");
 
 const nexmo = new Nexmo({
   apiKey: "7bced3b7",
@@ -17,8 +19,11 @@ async function sendOnlineSms(messageType, appointmentId) {
   console.log("... SMS enviado", to, text);
 }
 
-async function sendSms(messageType, appointmentId) {
-  var smsData = await getSmsData(messageType, appointmentId);
+async function sendSms(messageMetaData) {
+  var smsData = await getSmsData(
+    messageMetaData.type,
+    messageMetaData.appointmentId
+  );
   var smsUser = "noel.diaz";
   var smsPassword = "Da14Ca16";
   var to = "+" + smsData.to;
@@ -28,6 +33,12 @@ async function sendSms(messageType, appointmentId) {
   console.log("URL..", url);
   request.get(url, { timeout: 30000 }, (err, res, body) => {
     if (err) {
+      AppointmentMessageQueue.update(
+        { result: structures.messageState.ERROR },
+        {
+          where: { id: parseInt(messageMetaData.id) }
+        }
+      );
       return console.log(err);
     }
     if (res.statusCode !== 200) {
@@ -37,6 +48,15 @@ async function sendSms(messageType, appointmentId) {
     var info = JSON.parse(body);
     //console.log("body", body.url);
     if (info.status === "200") {
+      AppointmentMessageQueue.update(
+        {
+          status: structures.messageState.SEND,
+          result: structures.messageState.SEND
+        },
+        {
+          where: { id: parseInt(messageMetaData.id) }
+        }
+      );
       console.log("Mensaje enviado exitosamente: ", info.phone, messageText);
     }
   });

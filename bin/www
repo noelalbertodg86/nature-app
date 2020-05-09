@@ -8,11 +8,13 @@ var app = require("../app");
 var debug = require("debug")("nature-app:server");
 var http = require("http");
 const cron = require("node-cron");
+const messageManager = require("../messageManager/messageManager");
 
 /**
  * Start cron process.
  */
 cron.schedule("* * * * *", function() {
+  messageManager.messageManager();
   console.log("running a task every minute");
 });
 
