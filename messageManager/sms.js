@@ -34,7 +34,10 @@ async function sendSms(messageMetaData) {
   request.get(url, { timeout: 30000 }, (err, res, body) => {
     if (err) {
       AppointmentMessageQueue.update(
-        { result: structures.messageState.ERROR },
+        {
+          status: structures.messageState.ERROR,
+          result: structures.messageState.ERROR
+        },
         {
           where: { id: parseInt(messageMetaData.id) }
         }
