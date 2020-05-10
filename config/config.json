@@ -1,5 +1,14 @@
 {
   "development": {
+    "username": "naturecom_approot",
+    "password": "Reu-mm.25*",
+    "database": "naturecom_app",
+    "port": 3306,
+    "host": "46.4.20.177",
+    "dialect": "mysql",
+    "operatorsAliases": false
+  },
+  "test": {
     "username": "root",
     "password": "root",
     "database": "nature",
@@ -8,19 +17,12 @@
     "dialect": "mysql",
     "operatorsAliases": false
   },
-  "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql",
-    "operatorsAliases": false
-  },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "username": "naturecom_approot",
+    "password": "Reu-mm.25*",
+    "database": "naturecom_app",
+    "port": 3306,
+    "host": "46.4.20.177",
     "dialect": "mysql",
     "operatorsAliases": false
   },
