@@ -27,7 +27,7 @@
     "operatorsAliases": false
   },
   "db": {
-    "loadDbForce": false,
+    "loadDbForce": true,
     "loadDbAlter": false
   }
 }
