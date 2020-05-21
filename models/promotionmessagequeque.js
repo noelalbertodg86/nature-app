@@ -1,14 +1,19 @@
-'use strict';
+"use strict";
 module.exports = (sequelize, DataTypes) => {
-  const PromotionMessageQueque = sequelize.define('PromotionMessageQueque', {
-    type: DataTypes.STRING,
-    canal: DataTypes.STRING,
-    status: DataTypes.STRING,
-    result: DataTypes.STRING,
-    body: DataTypes.STRING
-  }, {});
+  const PromotionMessageQueque = sequelize.define(
+    "PromotionMessageQueque",
+    {
+      status: DataTypes.STRING,
+      result: DataTypes.STRING,
+      promotionId: DataTypes.INTEGER
+    },
+    {}
+  );
   PromotionMessageQueque.associate = function(models) {
-    // associations can be defined here
+    PromotionMessageQueque.belongsTo(models.Promotion, {
+      foreignKey: "promotionId",
+      as: "promotion"
+    });
   };
   return PromotionMessageQueque;
 };

@@ -1,26 +1,30 @@
 "use strict";
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable("PromotionMessageQueques", {
+    return queryInterface.createTable("EmailMessageQueques", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      promotionId: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        references: {
-          model: "Promotions",
-          key: "id"
-        }
+      from: {
+        type: Sequelize.STRING
+      },
+      to: {
+        type: Sequelize.STRING
+      },
+      subject: {
+        type: Sequelize.STRING
+      },
+      body: {
+        type: Sequelize.STRING(4000)
       },
       status: {
         type: Sequelize.STRING(20)
       },
       result: {
-        type: Sequelize.STRING(50)
+        type: Sequelize.STRING(20)
       },
       createdAt: {
         allowNull: false,
@@ -33,6 +37,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("PromotionMessageQueques");
+    return queryInterface.dropTable("EmailMessageQueques");
   }
 };

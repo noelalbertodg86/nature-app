@@ -2,9 +2,9 @@ const express = require("express");
 const Joi = require("joi");
 const Appointment = require("../models").Appointment;
 const Message = require("../models").Message;
-const AppointmentMessageQueue = require("../models").AppointmentMessageQueue;
 const defaultConfig = require("../configManager");
 const structures = require("../structures/structures");
+const appointmentService = require("../services/appointmentService");
 
 var router = express.Router();
 
@@ -31,21 +31,10 @@ router.post("/", async (req, res) => {
     return;
   }
   const newAppointment = await Appointment.create(req.body);
-  AppointmentMessageQueue.create({
-    appointmentId: newAppointment.id,
-    type: structures.messageType.NEWAPPOINTMENT,
-    canal: structures.messageCanal.EMAIL,
-    status: structures.appointmentStates.PENDING,
-    result: ""
-  });
-
-  AppointmentMessageQueue.create({
-    appointmentId: newAppointment.id,
-    type: structures.messageType.NEWAPPOINTMENT,
-    canal: structures.messageCanal.SMS,
-    status: structures.appointmentStates.PENDING,
-    result: ""
-  });
+  appointmentService.saveAppointmentNotification(
+    newAppointment.id,
+    structures.messageType.NEWAPPOINTMENT
+  );
   res.send(newAppointment);
 });
 

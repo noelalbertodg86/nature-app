@@ -11,7 +11,7 @@ const nexmo = new Nexmo({
 });
 
 async function sendOnlineSms(messageType, appointmentId) {
-  var smsData = await getSmsData(messageType, appointmentId);
+  var smsData = await getAppointmentSmsData(messageType, appointmentId);
   var from = smsData.from;
   var to = smsData.to;
   var text = smsData.text;
@@ -19,8 +19,8 @@ async function sendOnlineSms(messageType, appointmentId) {
   console.log("... SMS enviado", to, text);
 }
 
-async function sendSms(messageMetaData) {
-  var smsData = await getSmsData(
+async function sendAppointmentSms(messageMetaData) {
+  var smsData = await getAppointmentSmsData(
     messageMetaData.type,
     messageMetaData.appointmentId
   );
@@ -65,7 +65,7 @@ async function sendSms(messageMetaData) {
   });
 }
 
-async function getSmsData(messageType, appointmentId) {
+async function getAppointmentSmsData(messageType, appointmentId) {
   const smsMessage = await Message.findOne({
     where: {
       canal: "SMS",
@@ -94,5 +94,41 @@ async function getSmsData(messageType, appointmentId) {
   return { from, to, text };
 }
 
+async function send(text, destinationNumber) {
+  var smsUser = "noel.diaz";
+  var smsPassword = "Da14Ca16";
+  var to = "+593" + destinationNumber.substr(-9, 9);
+  var messageText = text;
+  var getUrl = `http://192.168.1.133:8090/SendSMS?username=${smsUser}&password=${smsPassword}&phone=${to}&message=${messageText}`;
+
+  console.log("URL..", getUrl);
+
+  var options = {
+    url: getUrl,
+    headers: {
+      timeout: "3000"
+    }
+  };
+
+  return new Promise(function(resolve, reject) {
+    // Do async job
+    request.get(options, (err, res, body) => {
+      if (err) {
+        console.log("Error: ", err);
+        reject(err);
+      } else {
+        var jsonBody = JSON.parse(body);
+        console.log(
+          "Mensaje enviado exitosamente: ",
+          jsonBody.phone,
+          messageText
+        );
+        resolve(jsonBody);
+      }
+    });
+  });
+}
+
 exports.sendOnlineSms = sendOnlineSms;
-exports.sendSms = sendSms;
+exports.sendAppointmentSms = sendAppointmentSms;
+exports.send = send;

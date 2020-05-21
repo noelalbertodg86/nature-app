@@ -81,4 +81,15 @@ async function getEmailData(messageMetaData) {
   return { emailMessage, appointmentModel };
 }
 
+async function send(to, subject, body) {
+  transporter.sendMail({
+    from: '"NATURE Centro Medico" <nature@nature.com.ec>', // sender address
+    to: to, // list of receivers
+    subject: subject, // Subject line
+    text: body, // plain text body
+    html: body // html body
+  });
+}
+
 exports.sendEmailMessage = sendEmailMessage;
+exports.send = send;

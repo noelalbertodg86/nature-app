@@ -50,7 +50,8 @@ imap.once("ready", function() {
             promotion = {
               type: structures.messageType.PROMOTION,
               canal: structures.messageCanal.SMS,
-              body: data
+              body: data,
+              status: structures.promotionStates.ACTIVE
             };
             Promotion.create(promotion);
             //

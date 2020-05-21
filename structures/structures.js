@@ -4,6 +4,11 @@ const appointmentStates = {
   CLOSED: "CLOSED"
 };
 
+const promotionStates = {
+  ACTIVE: "ACTIVE",
+  CLOSED: "CLOSED"
+};
+
 const messageState = {
   PENDING: "PENDING",
   SEND: "SEND",
@@ -17,10 +22,12 @@ const messageCanal = {
 };
 
 const messageType = {
-  NEWAPPOINTMENT: "NEWAPPOINTMENT"
+  NEWAPPOINTMENT: "NEWAPPOINTMENT",
+  PROMOTION: "PROMOTION"
 };
 
 exports.appointmentStates = appointmentStates;
 exports.messageCanal = messageCanal;
 exports.messageType = messageType;
 exports.messageState = messageState;
+exports.promotionStates = promotionStates;
