@@ -54,33 +54,39 @@ async function sendSms() {
   });
 
   console.log("Pending SMS messages count: ", pendingSmsMessages.length);
+
   pendingSmsMessages.forEach(element => {
     var smsSendResult = sms.send(element.body, element.destinationNumber);
-    smsSendResult.then(
-      function(result) {
-        smsMessageQueque.update(
-          {
-            status: structures.messageState.SEND,
-            result: structures.messageState.SEND
-          },
-          {
-            where: { id: parseInt(element.id) }
-          }
-        );
-        console.log(">> SMS send ok: ", result);
-      },
-      function(err) {
-        console.log(">> Error sending sms: ", err);
-        smsMessageQueque.update(
-          {
-            result: structures.messageState.ERROR
-          },
-          {
-            where: { id: parseInt(element.id) }
-          }
-        );
-      }
-    );
+    smsSendResult
+      .then(
+        function(result) {
+          smsMessageQueque.update(
+            {
+              status: structures.messageState.SEND,
+              result: structures.messageState.SEND
+            },
+            {
+              where: { id: parseInt(element.id) }
+            }
+          );
+          console.log(">> SMS send ok: ", result);
+        },
+        function(err) {
+          smsMessageQueque.update(
+            {
+              result: structures.messageState.ERROR
+            },
+            {
+              where: { id: parseInt(element.id) }
+            }
+          );
+          console.log(">> Error sending sms: ", err);
+          throw "break";
+        }
+      )
+      .catch(function() {
+        console.log("!!!! Please connect the device to send SMS !!!!!");
+      });
   });
 }
 

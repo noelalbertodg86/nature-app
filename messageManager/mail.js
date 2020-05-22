@@ -91,5 +91,5 @@ async function send(to, subject, body) {
   });
 }
 
-exports.sendEmailMessage = sendEmailMessage;
+//exports.sendEmailMessage = sendEmailMessage;
 exports.send = send;

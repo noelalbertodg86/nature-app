@@ -9,12 +9,14 @@ var debug = require("debug")("nature-app:server");
 var http = require("http");
 const cron = require("node-cron");
 const messageManager = require("../messageManager/messageManager");
+const promotionManager = require("../promotion/promotionCronManager");
 
 /**
  * Start cron process.
  */
 cron.schedule("* * * * *", function() {
   messageManager.messageManager();
+  promotionManager.readPromotionfromMail();
   console.log("running a task every minute");
 });
 

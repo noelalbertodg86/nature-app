@@ -105,6 +105,7 @@ async function send(text, destinationNumber) {
 
   var options = {
     url: getUrl,
+    timeout: "3000",
     headers: {
       timeout: "3000"
     }
@@ -129,6 +130,6 @@ async function send(text, destinationNumber) {
   });
 }
 
-exports.sendOnlineSms = sendOnlineSms;
-exports.sendAppointmentSms = sendAppointmentSms;
+//exports.sendOnlineSms = sendOnlineSms;
+//exports.sendAppointmentSms = sendAppointmentSms;
 exports.send = send;
