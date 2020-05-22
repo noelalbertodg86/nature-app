@@ -35,17 +35,11 @@ async function readMail() {
   imap.once("ready", function() {
     emailCounter = 0;
     openInbox(function(err, box) {
-      if (err) {
-        throw err;
-      }
-      imap.search(["UNSEEN", ["SUBJECT", "SMS"]], function(err, results) {
-        if (err) {
-          throw err;
-        }
+      if (err) throw err;
+      imap.search(["UNSEEN", ["SUBJECT", "EMAIL"]], function(err, results) {
+        if (err) throw err;
         if (!results || !results.length) {
-          console.log(
-            "The server didn't find any emails matching the specified criteria"
-          );
+          console.log("Do not find any mail for promotion");
           return;
         }
         var f = imap.fetch(results, { bodies: "1", markSeen: true });
@@ -60,7 +54,7 @@ async function readMail() {
               //save the message to database
               promotionService.saveNewPromotion({
                 type: structures.messageType.PROMOTION,
-                canal: structures.messageCanal.SMS,
+                canal: structures.messageCanal.EMAIL,
                 body: data,
                 status: structures.promotionStates.ACTIVE
               });
@@ -94,7 +88,7 @@ async function readMail() {
   });
 
   imap.once("error", function(err) {
-    console.log("Error in process: ", err);
+    console.log(err);
   });
 
   imap.once("end", function() {
@@ -102,9 +96,9 @@ async function readMail() {
   });
 }
 
-async function readSmsPromotionFromMail() {
+async function readMailPromotionFromMail() {
   await imap.connect();
   readMail();
 }
 
-exports.readSmsPromotionFromMail = readSmsPromotionFromMail;
+exports.readMailPromotionFromMail = readMailPromotionFromMail;
