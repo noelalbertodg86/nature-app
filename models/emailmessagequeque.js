@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       from: DataTypes.STRING,
       to: DataTypes.STRING,
       subject: DataTypes.STRING,
-      body: DataTypes.STRING,
+      body: DataTypes.TEXT("long"),
       status: DataTypes.STRING,
       result: DataTypes.STRING
     },

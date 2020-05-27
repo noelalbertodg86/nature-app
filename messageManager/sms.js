@@ -130,6 +130,29 @@ async function send(text, destinationNumber) {
   });
 }
 
+async function checkSmsApihealth() {
+  var getUrl = `http://192.168.1.133:8090/SendSMS?username=noel.diaz&password=Da14Ca16&phone=123456789&message=test`;
+  var options = {
+    url: getUrl,
+    timeout: "3000",
+    headers: {
+      timeout: "3000"
+    }
+  };
+  return new Promise(function(resolve, reject) {
+    // Do async job
+    request.get(options, (err, res, body) => {
+      if (err) {
+        //return false;
+        resolve(false);
+      } else {
+        resolve(true);
+      }
+    });
+  });
+}
+
 //exports.sendOnlineSms = sendOnlineSms;
 //exports.sendAppointmentSms = sendAppointmentSms;
 exports.send = send;
+exports.checkSmsApihealth = checkSmsApihealth;

@@ -52,34 +52,27 @@ async function sendSms() {
       status: structures.messageState.PENDING
     }
   });
-
   console.log("Pending SMS messages count: ", pendingSmsMessages.length);
+  if (pendingSmsMessages.length === 0) return;
+
+  sms.checkSmsApihealth().then(function(result) {
+    if (!result) {
+      console.log("-----> Please connect the device to send SMS");
+      return;
+    }
+  });
 
   pendingSmsMessages.forEach(element => {
     var smsSendResult = sms.send(element.body, element.destinationNumber);
+
     smsSendResult
       .then(
         function(result) {
-          smsMessageQueque.update(
-            {
-              status: structures.messageState.SEND,
-              result: structures.messageState.SEND
-            },
-            {
-              where: { id: parseInt(element.id) }
-            }
-          );
+          setSmsOk(element.id);
           console.log(">> SMS send ok: ", result);
         },
         function(err) {
-          smsMessageQueque.update(
-            {
-              result: structures.messageState.ERROR
-            },
-            {
-              where: { id: parseInt(element.id) }
-            }
-          );
+          setSmsError(element.id);
           console.log(">> Error sending sms: ", err);
           throw "break";
         }
@@ -88,6 +81,29 @@ async function sendSms() {
         console.log("!!!! Please connect the device to send SMS !!!!!");
       });
   });
+}
+
+async function setSmsOk(id) {
+  smsMessageQueque.update(
+    {
+      status: structures.messageState.SEND,
+      result: structures.messageState.SEND
+    },
+    {
+      where: { id: parseInt(id) }
+    }
+  );
+}
+
+async function setSmsError(id) {
+  smsMessageQueque.update(
+    {
+      result: structures.messageState.ERROR
+    },
+    {
+      where: { id: parseInt(id) }
+    }
+  );
 }
 
 exports.messageManager = messageManager;

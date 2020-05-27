@@ -4,6 +4,7 @@ const Message = require("../models").Message;
 const Appointment = require("../models").Appointment;
 const AppointmentMessageQueue = require("../models").AppointmentMessageQueue;
 const structures = require("../structures/structures");
+var inlineBase64 = require("nodemailer-plugin-inline-base64");
 
 let transporter = nodemailer.createTransport({
   host: "mail.nature.com.ec",
@@ -82,6 +83,7 @@ async function getEmailData(messageMetaData) {
 }
 
 async function send(to, subject, body) {
+  transporter.use("compile", inlineBase64({ cidPrefix: "somePrefix_" }));
   transporter.sendMail({
     from: '"NATURE Centro Medico" <nature@nature.com.ec>', // sender address
     to: to, // list of receivers

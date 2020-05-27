@@ -18,7 +18,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       body: {
-        type: Sequelize.STRING(4000)
+        type: Sequelize.TEXT("long")
       },
       status: {
         type: Sequelize.STRING(20)

@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       type: DataTypes.STRING,
       canal: DataTypes.STRING,
-      body: DataTypes.STRING,
+      body: DataTypes.TEXT("long"),
       status: DataTypes.STRING
     },
     {}

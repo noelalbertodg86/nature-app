@@ -8,8 +8,8 @@ const readMailPromotion = require("./readMailByEmailSubject");
 
 async function readPromotionfromMail() {
   try {
-    await readSmsPromotion.readSmsPromotionFromMail();
-    await readMailPromotion.readMailPromotionFromMail();
+    //await readSmsPromotion.readSmsPromotionFromMail();
+    await readMailPromotion.readEmail();
 
     var activePromotionClient = await PromotionClient.findAll({
       where: {

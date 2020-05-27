@@ -1,12 +1,7 @@
 const structures = require("../structures/structures");
 const promotionService = require("../services/promotionService");
-var Imap = require("imap"),
-  inspect = require("util").inspect;
-var fs = require("fs"),
-  fileStream;
-var buffer = "";
-
-var myMap;
+var Imap = require("imap");
+var inspect = require("util").inspect;
 
 var imap = new Imap({
   user: "promociones@nature.com.ec",
