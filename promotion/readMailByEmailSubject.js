@@ -35,7 +35,7 @@ async function readEmail() {
         })
         .then(function(messages) {
           var attachments = [];
-          console.log("-----> Promotion Email to process: ", messages.length);
+          console.log("-----> Promotion Email to read: ", messages.length);
           messages.forEach(function(message) {
             //var parts = imaps.getParts(message.attributes.struct);
             stringBody = message.parts[0].body;

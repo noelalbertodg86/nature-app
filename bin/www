@@ -16,7 +16,7 @@ const promotionManager = require("../promotion/promotionCronManager");
  */
 cron.schedule("* * * * *", function() {
   //messageManager.messageManager();
-  //promotionManager.readPromotionfromMail();
+  promotionManager.readPromotionfromMail();
   console.log("running a task every minute");
 });
 

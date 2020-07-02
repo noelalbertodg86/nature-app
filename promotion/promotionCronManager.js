@@ -9,8 +9,17 @@ async function readPromotionfromMail() {
     //await readSmsPromotion.readSmsPromotionFromMail();
     await readMailPromotion.readEmail();
 
-    var activePromotionClient = readActivePromotionToCLients();
+    var activePromotionClient = await PromotionClient.findAll({
+      where: {
+        status: structures.promotionStates.ACTIVE
+      },
+      include: ["client", "promotion"]
+    });
 
+    console.log(
+      "-----> Amount of promotion to send: ",
+      activePromotionClient.length
+    );
     //console.log(JSON.stringify(activePromotionClient));
     activePromotionClient.forEach(activePromotion => {
       promotion = activePromotion.promotion;
@@ -30,15 +39,6 @@ async function readPromotionfromMail() {
   } catch (err) {
     console.log("#### readPromotionfromMail: ", err);
   }
-}
-
-async function readActivePromotionToCLients() {
-  return await PromotionClient.findAll({
-    where: {
-      status: structures.promotionStates.ACTIVE
-    },
-    include: ["client", "promotion"]
-  });
 }
 
 async function sendSmsPromotion(element, client) {
