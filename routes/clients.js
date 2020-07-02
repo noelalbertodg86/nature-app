@@ -1,11 +1,8 @@
 const express = require("express");
 const Joi = require("joi");
 const Client = require("../models").Client;
-const defaultConfig = require("../configManager");
 
 var router = express.Router();
-
-initializeClientData(Client);
 
 router.get("/", async (req, res) => {
   const client = await Client.findAll();
@@ -145,10 +142,4 @@ function validateClient(place) {
   return Joi.validate(place, schema);
 }
 
-function initializeClientData(client) {
-  if (Boolean(defaultConfig.getConfig("loadDbForce"))) {
-    const clientInitialData = require("../seeders/initialData/loadInitData");
-    clientInitialData.loadClientData(Client);
-  }
-}
 module.exports = router;

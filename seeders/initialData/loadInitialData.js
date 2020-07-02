@@ -1,18 +1,15 @@
 var fs = require("fs");
+const timeSegmentModel = require("../../models").TimeSegment;
+const placeModel = require("../../models").Place;
+const clientModel = require("../../models").Client;
 
-const load = (timeSegmentModel, placeModel, clientData) => {
-  try {
-    loadSegmentTimeData(timeSegmentModel);
-    loadPlacesData(placeModel);
-    loadClientData(clientData);
-  } catch (e) {
-    console.log("Error:", e.stack);
-  }
-};
+console.log("Inicializando data en la base de datos");
+loadSegmentTimeData();
+loadPlacesData();
+loadClientData();
 
-function loadSegmentTimeData(timeSegmentModel) {
+function loadSegmentTimeData() {
   var data = fs.readFileSync(__dirname + "/segmentData.txt", "utf8");
-  timeSegmentModel.destroy({ truncate: true });
   data.split(/\r?\n/).forEach(function(line) {
     timeSegmentModel.create({
       segment: line
@@ -20,9 +17,8 @@ function loadSegmentTimeData(timeSegmentModel) {
   });
 }
 
-function loadPlacesData(placeModel) {
+function loadPlacesData() {
   var data = fs.readFileSync(__dirname + "/placesData.txt", "utf8");
-  placeModel.destroy({ truncate: true });
   data.split(/\r?\n/).forEach(function(line) {
     splitLine = line.split("\t");
     placeModel.create({
@@ -33,9 +29,8 @@ function loadPlacesData(placeModel) {
   });
 }
 
-function loadClientData(clientModel) {
+function loadClientData() {
   var data = fs.readFileSync(__dirname + "/clientDataTest.txt", "utf8");
-  clientModel.destroy({ truncate: true });
   data.split(/\r?\n/).forEach(function(line) {
     try {
       splitLine = line.split("\t");
@@ -56,7 +51,6 @@ function loadClientData(clientModel) {
 
 function loadMessageData(messageModel) {
   var data = fs.readFileSync(__dirname + "/messageData.txt", "utf8");
-  messageModel.destroy({ truncate: true });
   data.split(/\r?\n/).forEach(function(line) {
     try {
       splitLine = line.split("\t");
@@ -71,9 +65,3 @@ function loadMessageData(messageModel) {
     }
   });
 }
-
-exports.load = load;
-exports.loadClientData = loadClientData;
-exports.loadSegmentTimeData = loadSegmentTimeData;
-exports.loadPlacesData = loadPlacesData;
-exports.loadMessageData = loadMessageData;

@@ -8,3 +8,5 @@ db:
 	echo "Cleaning database ..."
 	sequelize db:migrate
 	echo "Creating db ..."
+	echo "Init db data..."
+	node ./seeders/initialData/loadInitialData.js

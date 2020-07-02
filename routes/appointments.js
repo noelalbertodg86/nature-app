@@ -1,14 +1,10 @@
 const express = require("express");
 const Joi = require("joi");
 const Appointment = require("../models").Appointment;
-const Message = require("../models").Message;
-const defaultConfig = require("../configManager");
 const structures = require("../structures/structures");
 const appointmentService = require("../services/appointmentService");
 
 var router = express.Router();
-
-initializeMessageData(Message);
 
 router.get("/", async (req, res) => {
   const appointment = await Appointment.findAll();
@@ -83,13 +79,6 @@ function validateAppointment(place) {
     employeeId: Joi.number().optional()
   };
   return Joi.validate(place, schema);
-}
-
-function initializeMessageData(messageModel) {
-  if (Boolean(defaultConfig.getConfig("loadDbForce"))) {
-    const clientInitialData = require("../seeders/initialData/loadInitData");
-    clientInitialData.loadMessageData(messageModel);
-  }
 }
 
 async function getAppointmentById(id) {
