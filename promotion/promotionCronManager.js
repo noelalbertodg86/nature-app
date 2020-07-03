@@ -7,7 +7,6 @@ const email = require("../messageManager/mail");
 async function readPromotionfromMail() {
   try {
     //await readSmsPromotion.readSmsPromotionFromMail();
-    await readMailPromotion.readEmail();
 
     var activePromotionClient = await PromotionClient.findAll({
       where: {
@@ -36,6 +35,8 @@ async function readPromotionfromMail() {
         sendEmailPromotion(activePromotion, client);
       }
     });
+
+    await readMailPromotion.readEmail();
   } catch (err) {
     console.log("#### readPromotionfromMail: ", err);
   }
