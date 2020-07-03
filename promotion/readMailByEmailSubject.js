@@ -133,8 +133,20 @@ function getImageId(line) {
 function removeIlegalXml(xml) {
   result = xml
     .replace("<=div>", "<div>")
+    .replace("<=/div>", "")
     .replace("=C2=A0", " ")
-    .replace(/=3D/g, "=");
+    .replace("=C3=A1", "&aacute;")
+    .replace("=C3=A0", "&aacute;")
+    .replace("=C3=A8", "&eacute;")
+    .replace("=C3=A9", "&eacute;")
+    .replace("=C3=AD", "&iacute;")
+    .replace("=C3=AC", "&iacute;")
+    .replace("=C3=B2", "&oacute;")
+    .replace("=C3=B3", "&oacute;")
+    .replace("=C3=B9", "&uacute;")
+    .replace("=C3=BA", "&uacute;")
+    .replace(/=C3=B1/, "&ntilde;")
+    .replace(/=3D/, "");
   return result;
 }
 

@@ -2,11 +2,13 @@ var fs = require("fs");
 const timeSegmentModel = require("../../models").TimeSegment;
 const placeModel = require("../../models").Place;
 const clientModel = require("../../models").Client;
+const adminModel = require("../../models").Administrator;
 
 console.log("Inicializando data en la base de datos");
 loadSegmentTimeData();
 loadPlacesData();
 loadClientData();
+loadAdministrator();
 
 function loadSegmentTimeData() {
   var data = fs.readFileSync(__dirname + "/segmentData.txt", "utf8");
@@ -25,6 +27,19 @@ function loadPlacesData() {
       name: splitLine[0],
       address: splitLine[1],
       phone: splitLine[2]
+    });
+  });
+}
+
+function loadAdministrator() {
+  var data = fs.readFileSync(__dirname + "/Administrators.txt", "utf8");
+  data.split(/\r?\n/).forEach(function(line) {
+    splitLine = line.split("\t");
+    adminModel.create({
+      email: splitLine[0],
+      firstName: splitLine[1],
+      lastName: splitLine[2],
+      cellPhone: splitLine[3]
     });
   });
 }
