@@ -14,10 +14,13 @@ const promotionManager = require("../promotion/promotionCronManager");
 /**
  * Start cron process.
  */
-cron.schedule("* * * * *", function() {
+cron.schedule("*/2 * * * *", function() {
   //messageManager.messageManager();
   promotionManager.readPromotionfromMail();
-  console.log("running a task every minute");
+  console.log(
+    Date(Date.now()).toString(),
+    "-> running a task every two minute"
+  );
 });
 
 /**

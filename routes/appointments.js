@@ -3,6 +3,7 @@ const Joi = require("joi");
 const Appointment = require("../models").Appointment;
 const structures = require("../structures/structures");
 const appointmentService = require("../services/appointmentService");
+const messageManager = require("../messageManager/messageManager");
 
 var router = express.Router();
 
@@ -31,6 +32,7 @@ router.post("/", async (req, res) => {
     newAppointment.id,
     structures.messageType.NEWAPPOINTMENT
   );
+  messageManager.messageManager();
   res.send(newAppointment);
 });
 
