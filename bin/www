@@ -14,7 +14,7 @@ const promotionManager = require("../promotion/promotionCronManager");
 /**
  * Start cron process.
  */
-cron.schedule("*/2 * * * *", function() {
+cron.schedule("*/45 * * * *", function() {
   //messageManager.messageManager();
   promotionManager.readPromotionfromMail();
   console.log(
