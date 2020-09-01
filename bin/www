@@ -17,10 +17,7 @@ const promotionManager = require("../promotion/promotionCronManager");
 cron.schedule("*/45 * * * *", function() {
   //messageManager.messageManager();
   promotionManager.readPromotionfromMail();
-  console.log(
-    Date(Date.now()).toString(),
-    "-> running a task every two minute"
-  );
+  console.log(Date(Date.now()).toString(), "-> running a task every 45 minute");
 });
 
 /**
